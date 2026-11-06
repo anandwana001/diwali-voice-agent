@@ -1,0 +1,33 @@
+'use client';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+const designs = [
+ ['https://images.ctfassets.net/2658fe8gbo8o/25f1myE1nor2gaR56oRNpa/2f5c391b8534f6bfa37e494fd5343011/suchandra-roy-chowdhury-cM8X2DDvnGE-unsplash.jpg?fm=webp&w=900','फूल और दीये','Suchandra Roy Chowdhury / Unsplash · KCRW','https://www.kcrw.com/shows/good-food/stories/diwali-recipe-to-celebrate-hindu-festival-of-lights-khushbu-shah'],
+ ['https://images.says.com/uploads/story_source/source_image/1292312/38e9.jpeg','गेंदे के फूलों की रंगोली','SAYS','https://says.com/my/lifestyle/easy-kolam-ideas-you-can-do'],
+ ['https://media.assettype.com/thequint/2023-11/72aa2c8f-73a0-4c76-bc16-f25bffb78038/2.jpg?auto=format&width=900','रंगीन पैस्ले रंगोली','The Quint','https://www.thequint.com/lifestyle/diwali-2023-rangoli-designs-unique-easy-designs-to-try-at-home-for-deepawali'],
+ ['https://imagesvs.oneindia.com/hi/img/2025/10/diwalirangolieasydesign1-1760687134.jpg','फूलों का मंडल','Oneindia','https://hindi.oneindia.com/lifestyle/diwali-rangoli-easy-design-images-10-beautiful-rangoli-ideas-decorate-your-home-with-flowers-colours-1410491.html'],
+ ['https://staticimg.amarujala.com/assets/images/2024/10/31/flower-rangoli-ideas_bb6586a6e1ac8eb2d43f169f5fbee690.jpeg?q=80','दरवाज़े की फूल रंगोली','Amar Ujala','https://www.amarujala.com/photo-gallery/lifestyle/diwali-special-flower-rangoli-ideas-with-image-10-minute-diwali-rangoli-designs-2024-10-31'],
+ ['https://3.bp.blogspot.com/-TzrSZE4gqZo/UJoiY0dqpTI/AAAAAAAAFBw/JFO6Hg5Jzr4/s1600/Diwali%2Bdecoration%2Bideas.jpg','दीपों वाली फूल रंगोली','Buzzintown','https://buzzintownbigevents.blogspot.com/2012/11/diwali-diya-pooja-thali-rangoli-decoration-ideas-pictures.html'],
+ ['https://static.toiimg.com/thumb/msid-71724194%2Cwidth-1280%2Cresizemode-4/71724194.jpg','बहुरंगी फूल और दीये','Times of India image / collection','https://tnhelearning.edu.vn/incredible-collection-of-full-4k-rangoli-designs-images-top-999/'],
+ ['https://cdn.giftlaya.com/images/62/79e164fa-64fc-4564-918d-76c9ec6db585.webp','दीपक वाली रंगोली','Giftlaya','https://giftlaya.com/blog/easy-and-thoughtful-rangoli-design-ideas'],
+];
+const materials=['लक्ष्मी–गणेश की प्रतिमा या चित्र, चौकी और स्वच्छ कपड़ा','दीपक, तेल या घी, रुई की बाती और माचिस','जल, पात्र, रोली, चावल, चंदन और फूल','फल, मिठाई, धूप और आरती की थाली','परिवार की परंपरा के अनुसार कलश, पत्ते, नारियल, सिक्के और पंचामृत'];
+const steps=[['तैयारी','स्थान साफ करें। सामग्री जुटाएँ और चौकी सजाएँ।'],['स्थापना','लक्ष्मी–गणेश का चित्र या प्रतिमा रखें। दीपक स्थिर, सुरक्षित जगह जलाएँ।'],['संकल्प','शांत बैठें। परिवार की मंगलकामना के साथ पूजा का संकल्प लें।'],['गणेश पूजन','पहले गणेश जी का स्मरण करें और फूल अर्पित करें।'],['लक्ष्मी आवाहन','लक्ष्मी जी का ध्यान करके आवाहन और आसन अर्पित करें।'],['जल अर्पण','प्रतीक रूप में पाद्य, अर्घ्य और आचमन का जल अर्पित करें।'],['स्नान और वस्त्र','परंपरा अनुसार स्नान, वस्त्र और आभूषण अर्पित करें। कागज़ के चित्र को न भिगोएँ।'],['पूजन','चंदन, रोली, अक्षत और पुष्प अर्पित करें।'],['धूप, दीप और भोग','धूप, दीप, फल और मिठाई अर्पित करें।'],['प्रार्थना और आरती','अपनी परिचित आरती करें। नमस्कार, क्षमा प्रार्थना और प्रसाद वितरण करें।']];
+export function FestivalActivity({channel, token}: {channel:string;token?:string}) {
+ const [activity,setActivity]=useState<'rangoli'|'puja'|null>(null);
+ const [error,setError]=useState('');
+ const [visibleCount,setVisibleCount]=useState(4);
+ useEffect(()=>{
+   const open = (event: Event) => { const value = (event as CustomEvent).detail; if(value==='rangoli-more'){setActivity('rangoli');setVisibleCount(count=>Math.min(count+4,designs.length));}else if(value==='rangoli'||value==='puja')setActivity(value); };
+   window.addEventListener('diwali-visual-activity',open);
+   return()=>window.removeEventListener('diwali-visual-activity',open);
+ },[]);
+ useEffect(()=>{
+  if(!token)return;
+  let active=true;let last=0;
+  const controller=new AbortController();
+  const poll=async()=>{try{const response=await fetch(`/api/activity?channel=${encodeURIComponent(channel)}`,{headers:{Authorization:`Bearer ${token}`},signal:controller.signal});if(!response.ok)throw new Error();const data=await response.json();if(active&&data.updatedAt>last){last=data.updatedAt;setActivity(data.activity);}if(active)setError('');}catch{if(active)setError('दृश्य अपडेट नहीं मिल रहा। नीचे से खोलें।');}};
+  void poll();const timer=setInterval(poll,1500);return()=>{active=false;controller.abort();clearInterval(timer);};
+ },[channel,token]);
+ return <section className={`festival-activity ${activity ? 'activity-is-open' : ''}`} aria-label="Visual activities"><div className="activity-tabs"><button aria-pressed={activity==='rangoli'} onClick={()=>setActivity('rangoli')}>❋ रंगोली देखें</button><button aria-pressed={activity==='puja'} onClick={()=>setActivity('puja')}>🪔 पूजा विधि</button>{activity&&<button onClick={()=>setActivity(null)}>बंद करें ×</button>}</div>{error&&<p role="status">{error}</p>}{activity==='rangoli'&&<div><h2>आज कौन सी रंगोली बनाएँ?</h2><p>रंगीन नमूने — अपनी जगह और पसंद के अनुसार चुनें।</p><div className="rangoli-grid">{designs.slice(0,visibleCount).map(([url,title,credit,source])=><a href={source} key={url} target="_blank" rel="noopener noreferrer"><Image src={url} width={600} height={480} alt={title} unoptimized onError={event=>{event.currentTarget.style.display='none';}}/><h3>{title}</h3><span>{credit} · स्रोत देखें ↗</span></a>)}</div><button className="more-rangoli" disabled={visibleCount>=designs.length} onClick={()=>setVisibleCount(count=>Math.min(count+4,designs.length))}>{visibleCount<designs.length ? 'और रंगोली दिखाएँ ↓' : 'सभी उपलब्ध डिज़ाइन दिख रहे हैं'}</button><p role="status">{visibleCount} रंगोली डिज़ाइन</p></div>}{activity==='puja'&&<div className="puja-guide" lang="hi"><h2>दीपावली पूजा — घर के लिए मार्गदर्शिका</h2><p>यह सामान्य घरेलू रूपरेखा है। विधि परिवार और क्षेत्र के अनुसार बदलती है। विस्तृत मंत्र और षोडशोपचार के लिए नीचे मूल स्रोत देखें। मुहूर्त अलग से अपने शहर के अनुसार जाँचें।</p><h3>पूजा सामग्री</h3>{materials.map(text=><label key={text}><input type="checkbox"/>{text}</label>)}<h3>क्रमवार विधि</h3><ol>{steps.map(([title,text])=><li key={title}><h4>{title}</h4><p>{text}</p></li>)}</ol><p>जलती लौ को अकेला न छोड़ें। कपड़े और सजावट से दूर रखें।</p><a href="https://www.drikpanchang.com/festivals/lakshmipuja/info/lakshmi-puja-vidhi.html?lang=hi" target="_blank" rel="noopener noreferrer">विस्तृत लक्ष्मी पूजा विधि और मंत्र — दृक पंचांग ↗</a><br/><a href="https://www.drikpanchang.com/diwali/info/diwali-puja-vidhi.html" target="_blank" rel="noopener noreferrer">पूर्ण दीपावली पूजा संदर्भ ↗</a></div>}</section>;
+}

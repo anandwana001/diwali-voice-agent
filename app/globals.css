@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme (default). Dark tokens apply when the OS prefers dark mode. */
+:root {
+  color-scheme: light;
+
+  /* --- Agora light token set --- */
+
+  /* Backgrounds */
+  --background:       220 20% 98%;
+  --surface:          220 18% 96%;
+  --surface-elevated: 220 16% 94%;
+
+  /* Semantic surface aliases */
+  --card:             0 0% 100%;
+  --card-foreground:  220 25% 12%;
+  --popover:          0 0% 100%;
+  --popover-foreground: 220 25% 12%;
+  --muted:            220 14% 94%;
+
+  /* Borders / inputs */
+  --border:           220 13% 88%;
+  --input:            220 13% 88%;
+
+  /* Foreground */
+  --foreground:       220 25% 12%;
+  --muted-foreground: 220 10% 42%;
+
+  /* Brand — Agora cyan */
+  --primary:            194 100% 42%;
+  --primary-foreground: 220 25% 12%;
+
+  /* Secondary — quiet surface-level control */
+  --secondary:            220 14% 94%;
+  --secondary-foreground: 220 25% 12%;
+
+  /* Accent — same hue as primary */
+  --accent:            194 100% 42%;
+  --accent-foreground: 220 25% 12%;
+
+  /* Destructive — end call, error states only */
+  --destructive:            0 72% 52%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Focus ring */
+  --ring: 194 100% 42%;
+
+  /* Radius base (8px) */
+  --radius: 0.5rem;
+
+  /* Charts */
+  --chart-1: 194 100% 42%;
+  --chart-2: 220 10% 45%;
+  --chart-3: 220 10% 35%;
+  --chart-4: 0 72% 52%;
+  --chart-5: 150 50% 40%;
+
+  /* Sidebar */
+  --sidebar-background:         0 0% 100%;
+  --sidebar-foreground:         220 25% 12%;
+  --sidebar-primary:            194 100% 42%;
+  --sidebar-primary-foreground: 220 25% 12%;
+  --sidebar-accent:             220 14% 94%;
+  --sidebar-accent-foreground:  220 25% 12%;
+  --sidebar-border:             220 13% 88%;
+  --sidebar-ring:               194 100% 42%;
+
+  /*
+   * AgentVisualizer: same order as dark — cool/primary at bar bottom, soft mid, purple at top.
+   * Light: blue ≈ cyan role; dark: overridden below (cyan → soft → purple).
+   */
+  --viz-stop-1: 225 92% 50%;
+  --viz-stop-2: 220 14% 78%;
+  --viz-stop-3: 285 58% 48%;
+
+  /* Font */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    /* --- Agora dark token set --- */
+
+    --background:       220 14% 5%;
+    --surface:          220 12% 9%;
+    --surface-elevated: 220 10% 13%;
+
+    --card:             220 12% 9%;
+    --card-foreground:  220 15% 95%;
+    --popover:          220 10% 13%;
+    --popover-foreground: 220 15% 95%;
+    --muted:            220 12% 9%;
+
+    --border:           220 10% 18%;
+    --input:            220 10% 18%;
+
+    --foreground:       220 15% 95%;
+    --muted-foreground: 220 10% 50%;
+
+    --primary:            194 100% 50%;
+    --primary-foreground: 220 14% 5%;
+
+    --secondary:            220 10% 13%;
+    --secondary-foreground: 220 15% 95%;
+
+    --accent:            194 100% 50%;
+    --accent-foreground: 220 14% 5%;
+
+    --destructive:            0 72% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --ring: 194 100% 50%;
+
+    --chart-1: 194 100% 50%;
+    --chart-2: 220 10% 60%;
+    --chart-3: 220 10% 40%;
+    --chart-4: 0 72% 58%;
+    --chart-5: 150 60% 45%;
+
+    --sidebar-background:         220 12% 9%;
+    --sidebar-foreground:         220 15% 95%;
+    --sidebar-primary:            194 100% 50%;
+    --sidebar-primary-foreground: 220 14% 5%;
+    --sidebar-accent:             220 10% 13%;
+    --sidebar-accent-foreground:  220 15% 95%;
+    --sidebar-border:             220 10% 18%;
+    --sidebar-ring:               194 100% 50%;
+
+    /* Agent visualizer accent ramp used by the current conversation UI. */
+    --viz-stop-1: 194 100% 58%;
+    --viz-stop-2: 215 42% 72%;
+    --viz-stop-3: 272 62% 72%;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+/* --- Entry animations --- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-up-d1 { animation-delay: 60ms; }
+.animate-fade-up-d2 { animation-delay: 120ms; }
+.animate-fade-up-d3 { animation-delay: 180ms; }
+
+/* --- MicButtonWithVisualizer: force a true circle ---
+   The parent flex can stretch the <button> unevenly. */
+.conversation-mic-host {
+  flex-shrink: 0;
+}
+.conversation-mic-host > button {
+  aspect-ratio: 1 / 1;
+  width: 3rem;
+  height: 3rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  max-width: 3rem;
+  max-height: 3rem;
+  border-radius: 9999px;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: visible; /* Web Audio bar visualizer in bottom band; avoid clipping */
+}
+@media (min-width: 640px) {
+  .conversation-mic-host > button {
+    width: 3.5rem;
+    height: 3.5rem;
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+    max-width: 3.5rem;
+    max-height: 3.5rem;
+  }
+}
+
+/* Diwali courtyard theme */
+.diwali-app { --background:280 48% 9%; --foreground:40 80% 92%; --card:284 30% 15%; --card-foreground:40 80% 92%; --border:290 20% 32%; --muted:280 25% 18%; --muted-foreground:30 25% 75%; --primary:39 100% 66%; --primary-foreground:280 48% 9%; --popover:280 35% 15%; --popover-foreground:40 80% 92%; --secondary:280 25% 20%; --secondary-foreground:40 80% 92%; --ring:39 100% 66%; color-scheme:dark; background:radial-gradient(ellipse at 50% 54%,#9e5065 0%,#532844 30%,#21112f 68%,#140c23 100%); isolation:isolate; }
+.diwali-sky{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#ffe8bd66 1px,transparent 1px);background-size:97px 83px}
+.temple-city{position:absolute;bottom:0;width:100%;height:38%;filter:drop-shadow(0 -6px 18px #ffb83d33);opacity:.85}
+.sky-lantern{position:absolute;width:10px;height:16px;background:#ffe38d;border-radius:2px 2px 5px 5px;box-shadow:0 0 22px 5px #ffb64666;animation:lantern-drift 12s ease-in-out infinite}
+.firework{position:absolute;width:1px;height:1px;animation:firework-glow 7s ease-in-out infinite;color:#c7a6df;opacity:.5}.firework b{position:absolute;width:3px;height:12px;border-top:3px dotted currentColor;border-bottom:3px dotted currentColor;transform-origin:center}
+.festival-nav{display:flex;justify-content:space-between;align-items:center;padding:25px 5%;position:relative;z-index:2}.festival-nav a{display:flex;gap:12px;align-items:center;font-size:26px;font-family:Georgia,serif}.festival-nav-note{font-size:12px;letter-spacing:.07em;color:#e1bdce}.festival-nav-note span{color:#ffd485;margin-left:15px}
+.festival-welcome{width:100%;max-width:1000px;text-align:center;padding:24px 16px 35px}.festival-eyebrow{font-size:10px;letter-spacing:.28em;color:#f4c686;animation:fade-up .8s both}.festival-title{font-family:Georgia,serif;font-weight:400;font-size:clamp(44px,6.5vw,88px);line-height:1.07;letter-spacing:-.045em;margin:20px 0 16px}.festival-title>span{display:block;animation:headline-arrive 1s cubic-bezier(.2,.8,.2,1) both}.festival-title>span:nth-child(2){animation-delay:.17s}.festival-title em{color:#ffd184;font-weight:400}.festival-title svg{display:inline;width:28px;vertical-align:top;margin:8px 0 0 12px;color:#ffd184;animation:star-turn 8s ease-in-out infinite}.festival-subtitle{font-size:15px;letter-spacing:.04em;color:#ecd4df;animation:fade-up 1s .3s both}
+.diya-stage{position:relative;width:min(540px,85vw);margin:-18px auto -12px;flex-shrink:0}.diya-art{position:relative;width:100%;filter:drop-shadow(0 8px 24px #f5a33d22)}.diya-halo{position:absolute;left:40%;top:10%;width:40%;height:65%;background:radial-gradient(ellipse,#ffbd6866,transparent 65%);filter:blur(18px);animation:diya-breathe 4s ease-in-out infinite}.diya-flame{transform-origin:392px 202px;animation:flame-flicker 3s ease-in-out infinite}.diya-stage[data-state="talking"] .diya-flame,.diya-stage[data-state="speaking"] .diya-flame{animation-duration:.45s}.diya-stage[data-state="connecting"] .diya-halo{animation-duration:1s}
+.festival-invite{display:flex;justify-content:center;align-items:center;gap:9px;min-height:30px;font-size:14px;color:#f7dfd5}.tiny-star{color:#ffd184}.invite-text{animation:fade-up .4s both}.festival-start{display:flex;align-items:center;justify-content:center;gap:16px;margin:18px auto 0;background:linear-gradient(120deg,#ffda80,#ffb746);color:#3e2026;border:1px solid #ffe2a1;border-radius:999px;padding:17px 30px;font-size:19px;font-weight:600;box-shadow:0 8px 40px #ffa83f33;transition:transform .2s,box-shadow .2s}.festival-start:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 12px 45px #ffa83f55}.festival-start:disabled{opacity:.7;cursor:wait}.festival-start svg{width:20px}.festival-hint{font-size:11px;color:#e6bfcf;margin:12px 0 24px}.festival-suggestions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.festival-suggestions button{border:1px solid #e3b2c54d;border-radius:999px;background:#35162d80;padding:11px 17px;font-size:12px;backdrop-filter:blur(12px);animation:fade-up .7s both;transition:background .2s,transform .2s}.festival-suggestions button:hover{background:#75415b;transform:translateY(-3px)}.festival-suggestions span{color:#ffd184;font-size:17px;margin-right:8px}.festival-footer{position:relative;text-align:center;padding:20px;font-size:10px;letter-spacing:.06em;color:#dbc1ce}.festival-footer span{margin:0 10px;color:#ffd184}.festival-footer a{color:#ffda92}.festival-error{color:#ffd4d4;padding:14px;font-size:14px}.festival-call{background:#1c1027b3;border:1px solid #c38aab33;border-radius:24px;margin:0 20px;min-height:75vh;backdrop-filter:blur(12px)}.festival-call .diya-stage{margin:auto}.diwali-app button:focus-visible,.diwali-app a:focus-visible{outline:2px solid #ffda80;outline-offset:5px}
+@keyframes headline-arrive{from{opacity:0;transform:translateY(28px) rotate(-2deg)}to{opacity:1;transform:translateY(0) rotate(0)}}@keyframes lantern-drift{0%,100%{transform:translate(0,12px) rotate(-5deg)}50%{transform:translate(15px,-35px) rotate(6deg)}}@keyframes flame-flicker{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(.95,1.06) rotate(3deg)}}@keyframes diya-breathe{50%{opacity:.55;transform:scale(1.15)}}@keyframes star-turn{50%{transform:rotate(35deg);opacity:.5}}@keyframes firework-glow{0%,100%{opacity:.15;transform:scale(.75)}50%{opacity:.65;transform:scale(1.1)}}
+@media(min-width:1000px) and (min-height:850px){.festival-welcome{padding-top:38px}.diya-stage{width:600px}.festival-title{margin-top:25px}}
+@media(max-width:640px){.festival-nav{padding:20px}.festival-nav a{font-size:21px}.festival-nav-note{font-size:0}.festival-nav-note span{font-size:20px}.festival-welcome{padding-top:24px}.festival-eyebrow{font-size:8px;letter-spacing:.2em}.festival-title{font-size:50px}.festival-title svg{width:18px;margin-left:4px}.festival-subtitle{font-size:12px}.diya-stage{margin:0 auto -12px}.temple-city{height:26%;opacity:.65}.festival-invite{font-size:12px}.festival-suggestions{gap:8px}.festival-suggestions button{font-size:11px;padding:9px 12px}.festival-call{margin:0 8px}.firework{transform:scale(.6)}}
+@media(prefers-reduced-motion:reduce){.diwali-app *,.diwali-app *::before,.diwali-app *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(min-width:641px) and (max-height:850px){.festival-nav{padding-top:17px;padding-bottom:12px}.festival-welcome{padding-top:8px;padding-bottom:12px}.festival-title{font-size:60px;margin:12px 0}.diya-stage{width:370px;margin:-20px auto -18px}.festival-start{padding:12px 25px;margin-top:10px}.festival-hint{margin:8px 0 14px}.festival-footer{padding:12px}.festival-suggestions button{padding:8px 14px}}
+.courtyard-call{position:relative;width:100%;min-height:78vh;padding:0 5% 30px}.courtyard-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 0 20px}.courtyard-toolbar>div{display:flex;align-items:center;gap:14px}.call-live{font-size:12px;letter-spacing:.06em;color:#e8c6d1}.call-live>i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ffda89;box-shadow:0 0 12px #ffb13e;margin-right:9px}.transcript-toggle{display:flex;align-items:center;gap:8px;border:1px solid #e4bdce44;border-radius:999px;padding:10px 16px;font-size:12px;background:#30183088}.courtyard-main{text-align:center;margin:auto;max-width:780px}.courtyard-main .festival-eyebrow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:15px}.call-heading{font:400 clamp(40px,5vw,68px)/1.12 Georgia,serif;letter-spacing:-.04em;margin:16px 0 12px;animation:headline-arrive .8s both}.call-heading em{color:#ffd184}.call-subheading{font-size:13px;color:#e9c8d5}.call-diya-wrap .diya-stage{width:min(560px,90vw);margin:-10px auto -28px}.call-state{display:flex;flex-direction:column;align-items:center;gap:12px;font-size:18px;color:#ffe5b6;animation:fade-up .5s both}.voice-dots{display:flex;align-items:center;gap:4px;height:22px}.voice-dots i{width:4px;height:10px;border-radius:4px;background:#ffd184;animation:diya-breathe 1.4s ease-in-out infinite}.voice-dots i:nth-child(2n){height:22px;animation-delay:.3s}.call-interrupt{font-size:11px;color:#e1b8ca;margin-top:12px}.call-actions{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:25px}.call-end{display:flex;align-items:center;gap:8px;border:1px solid #f2b2a955;color:#ffd5c9;background:#4d243a99;border-radius:999px;padding:16px 20px;font-size:12px}.call-end:hover{background:#743c50}.courtyard-transcript{position:absolute;left:4%;top:110px;width:280px;max-height:380px;height:46vh;background:#29162dd9;backdrop-filter:blur(18px);border-radius:20px;box-shadow:0 12px 40px #180d2422;animation:fade-up .5s both}.transcript-close{position:absolute;right:10px;top:12px;z-index:1;padding:6px}.courtyard-transcript section{border-color:#e3b4ca33}.courtyard-transcript h2{font-family:Georgia,serif;font-size:18px}.courtyard-transcript section>div:first-child{height:72px}.courtyard-transcript article{animation:fade-up .35s both}@media(min-width:1200px){.courtyard-main{padding-left:160px}}@media(max-width:1199px){.courtyard-transcript{position:relative;left:auto;top:auto;width:min(600px,100%);height:260px;margin:25px auto 0}.courtyard-call{padding:0 20px 25px}.call-live{display:none}.courtyard-toolbar{justify-content:flex-end}.call-diya-wrap .diya-stage{width:min(440px,85vw)}}
+.festival-activity{position:relative;max-width:900px;margin:24px auto;text-align:left}.activity-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.activity-tabs button{border:1px solid #e9bdce55;border-radius:999px;padding:10px 20px;background:#39203d}.festival-activity h2{font:30px Georgia,serif;color:#ffdc99;margin:24px 0 12px}.festival-activity p{font-size:14px;line-height:1.9;color:#ecd8e3}.rangoli-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.rangoli-grid a{border:1px solid #eab6cf44;border-radius:18px;overflow:hidden;background:#38203d;padding-bottom:15px;transition:transform .2s}.rangoli-grid a:hover{transform:translateY(-4px)}.rangoli-grid h3,.rangoli-grid span{margin:10px 14px;display:block}.rangoli-grid span{font-size:12px;color:#ffdb9b}.puja-guide{padding:24px;border:1px solid #eab6cf44;background:#28182de6;border-radius:22px;margin-top:20px}.puja-guide h3{font-size:21px;color:#ffd38b;margin:24px 0 12px}.puja-guide label{display:flex;gap:12px;padding:12px 0;line-height:1.7;border-bottom:1px solid #ebc2d522}.puja-guide input{accent-color:#ffc261;width:18px;flex-shrink:0}.puja-guide li{margin:15px 0;padding-left:8px}.puja-guide ol{list-style:decimal;padding-left:24px}.puja-guide h4{color:#ffe2a8;font-size:17px}.puja-guide a{display:inline-block;color:#ffdc99;text-decoration:underline;margin-top:12px}@media(max-width:640px){.rangoli-grid{grid-template-columns:repeat(2,1fr)}.puja-guide{padding:18px}.festival-activity h2{font-size:25px}}
+
+/* Festival palette: deep navy, solar gold, warm ivory, Mars coral. */
+.diwali-app{--background:205 42% 15%;--foreground:42 42% 94%;--card:205 38% 19%;--card-foreground:42 42% 94%;--popover:205 38% 19%;--popover-foreground:42 42% 94%;--muted:205 32% 22%;--muted-foreground:42 20% 76%;--border:205 22% 32%;--input:205 22% 32%;--primary:40 76% 62%;--primary-foreground:205 42% 15%;--secondary:205 32% 22%;--secondary-foreground:42 42% 94%;--accent:40 76% 62%;--accent-foreground:205 42% 15%;--destructive:10 65% 56%;--destructive-foreground:42 42% 94%;--ring:40 76% 62%;background:radial-gradient(ellipse at 50% 54%,#E8B65426 0%,#D75D4510 28%,#172A38 70%);background-color:#172A38;color:#F6F2E9}
+.diwali-banderwal{position:absolute;top:0;left:0;right:0;height:82px;overflow:hidden;pointer-events:none;z-index:3}.diwali-banderwal svg{width:100%;height:94px}.festival-nav{padding-top:90px}.diwali-sky{background-image:radial-gradient(circle,#F6F2E955 1px,transparent 1px)}.sky-lantern{background:#E8B654;box-shadow:0 0 22px 5px #E8B65455}.firework{color:#F6F2E9}.temple-city{filter:drop-shadow(0 -6px 18px #E8B65433)}
+.festival-nav-note,.festival-subtitle,.festival-hint,.festival-footer,.festival-invite,.call-live,.call-subheading,.call-interrupt,.festival-activity p{color:#F6F2E9cc}.festival-eyebrow,.festival-title em,.festival-title svg,.tiny-star,.festival-suggestions span,.festival-footer a,.festival-footer span,.festival-nav-note span,.call-heading em,.call-state,.festival-activity h2,.puja-guide h3,.puja-guide h4,.puja-guide a,.rangoli-grid span{color:#E8B654}.festival-start{background:#E8B654;color:#172A38;border-color:#F6F2E966;box-shadow:0 8px 40px #E8B65433}.festival-start:hover{box-shadow:0 12px 45px #E8B65455}.festival-suggestions button,.transcript-toggle,.activity-tabs button{background:#172A38cc;border-color:#E8B65455}.festival-suggestions button:hover,.activity-tabs button:hover{background:#E8B65422}.diya-halo{background:radial-gradient(ellipse,#E8B65466,transparent 65%)}.diya-art{filter:drop-shadow(0 8px 24px #E8B65422)}.courtyard-transcript{background:#172A38ed;box-shadow:0 12px 40px #172A3844}.courtyard-transcript section,.rangoli-grid a,.puja-guide{border-color:#E8B65444}.call-live>i,.voice-dots i{background:#E8B654;box-shadow:0 0 12px #E8B65444}.call-end{background:#D75D4526;color:#F6F2E9;border-color:#D75D4588}.call-end:hover{background:#D75D4555}.puja-guide,.rangoli-grid a{background:#172A38e8}.puja-guide label{border-color:#F6F2E922}.puja-guide input{accent-color:#E8B654}.festival-error{color:#F6F2E9;background:#D75D4533;border-radius:12px}.diwali-app button:focus-visible,.diwali-app a:focus-visible{outline-color:#E8B654}
+@media(min-width:641px) and (max-height:850px){.festival-nav{padding-top:82px}}@media(max-width:640px){.diwali-banderwal{height:62px}.diwali-banderwal svg{height:70px}.festival-nav{padding-top:76px}}
+/* The courtyard stays fixed; only content panels scroll. */
+html,body{height:100%;overflow:hidden}.diwali-app{height:100dvh;min-height:0;overflow:hidden}.festival-nav{flex-shrink:0}.festival-footer{flex-shrink:0;padding:10px}.festival-welcome{min-height:0;overflow-y:auto;max-height:100%;scrollbar-width:thin}.courtyard-call{height:100%;min-height:0;overflow:hidden;flex:1;padding-bottom:0}.courtyard-toolbar{padding:4px 0 10px;flex-shrink:0}.courtyard-main{height:calc(100% - 55px);max-width:700px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;margin:auto}.courtyard-main .festival-eyebrow{margin-top:0}.call-heading{font-size:clamp(32px,4vw,58px);margin:10px 0}.call-diya-wrap{min-height:0;flex:0 1 300px}.call-diya-wrap .diya-stage{width:min(460px,65vh);margin:-20px auto}.call-subheading{flex-shrink:0}.call-actions{margin-top:16px;flex-shrink:0}.call-state{font-size:16px;gap:5px;flex-shrink:0}.call-interrupt{margin-top:8px;flex-shrink:0}.courtyard-transcript{left:2%;top:70px;width:230px;height:45%;max-height:330px}.festival-activity{position:absolute;right:2%;top:65px;bottom:15px;width:330px;max-width:30vw;margin:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:16px;border-radius:22px}.festival-activity.activity-is-open{background:#172A38f5;border:1px solid #E8B65455;box-shadow:0 15px 50px #172A3888;animation:fade-up .4s both}.festival-activity:not(.activity-is-open){top:auto;bottom:18px;overflow:visible;padding:0}.festival-activity .activity-tabs{position:sticky;top:-16px;z-index:1;background:#172A38;padding:8px 0;gap:6px}.festival-activity .activity-tabs button{padding:8px 10px;font-size:11px}.festival-activity h2{font-size:23px;margin:15px 0 8px}.festival-activity .rangoli-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.rangoli-grid h3{font-size:12px}.rangoli-grid span{font-size:10px}.festival-activity .puja-guide{padding:12px;margin-top:12px}.festival-activity .puja-guide p,.festival-activity .puja-guide label{font-size:12px}.festival-activity .puja-guide h3{font-size:18px}
+@media(min-width:1200px){.courtyard-main{max-width:calc(100% - 620px)}}
+@media(max-width:1199px){.courtyard-transcript{position:absolute;left:0;top:65px;width:210px;height:42%;margin:0}.festival-activity{width:290px;max-width:35vw;right:0}.courtyard-main{max-width:calc(100% - 430px)}.call-heading{font-size:35px}.call-diya-wrap .diya-stage{width:320px}.call-subheading{font-size:11px}}
+@media(max-width:760px){.courtyard-main{max-width:100%}.courtyard-transcript{z-index:5;width:min(80vw,300px);height:55%;background:#172A38fa}.festival-activity{max-width:none;width:min(88vw,350px);z-index:6}.festival-activity:not(.activity-is-open){width:auto;max-width:100%;bottom:0}.call-diya-wrap .diya-stage{width:min(390px,80vw)}.courtyard-call{padding-bottom:50px}.festival-nav{padding-bottom:10px}.festival-footer{font-size:8px}.call-heading{font-size:39px}.festival-welcome{padding-top:8px}.festival-title{font-size:40px;margin:10px 0}.festival-welcome .diya-stage{width:min(300px,65vw);margin:-18px auto}.festival-welcome .festival-hint{margin:8px}.festival-welcome .festival-start{padding:12px 22px;margin-top:8px}.festival-welcome .festival-suggestions button{padding:7px 10px}}
+@media(max-height:650px){.festival-nav{padding-top:60px;padding-bottom:6px}.diwali-banderwal{height:50px}.diwali-banderwal svg{height:60px}.call-diya-wrap{flex-basis:160px}.call-diya-wrap .diya-stage{width:280px}.call-heading{font-size:32px;margin:5px}.call-subheading,.call-interrupt{display:none}.call-actions{margin-top:7px}.festival-welcome .diya-stage{width:240px}.festival-title{font-size:36px}.festival-welcome{padding-top:4px}.festival-eyebrow{font-size:8px}.festival-welcome .festival-hint{margin:6px}.festival-welcome .festival-start{margin-top:5px;padding:10px 22px}.festival-welcome .festival-suggestions{gap:5px}.festival-welcome .festival-suggestions button{padding:6px 10px}.festival-footer{padding:6px}}
+.festival-welcome{overflow:hidden}@media(min-width:761px) and (max-height:850px){.festival-welcome{padding-top:0;padding-bottom:0}.festival-title{font-size:clamp(36px,5vw,54px);margin:8px 0}.festival-welcome .diya-stage{width:min(320px,43vh);margin:-24px auto -22px}.festival-welcome .festival-start{padding:10px 24px;margin-top:8px}.festival-welcome .festival-hint{margin:8px}.festival-welcome .festival-suggestions button{padding:7px 12px}}
+/* Saffron-lit courtyard, with a full-height visual wing. */
+.diwali-app{background:radial-gradient(ellipse at 20% 48%,#E8902D55 0%,#D75D4524 35%,#172A38 75%);background-color:#172A38}.festival-nav{background:linear-gradient(180deg,#D75D451f,transparent)}.festival-title em,.call-heading em{color:#FFAE42}.diya-halo{background:radial-gradient(ellipse,#FF982D88,transparent 68%)}.festival-start{background:linear-gradient(120deg,#F7C35D,#F29532);box-shadow:0 8px 38px #F2953244}.courtyard-call:has(.activity-is-open) .courtyard-main{max-width:46%;margin-left:0;padding-right:20px}.courtyard-call:has(.activity-is-open) .courtyard-transcript{display:none}.festival-activity.activity-is-open{top:50px;bottom:0;right:-1%;width:51%;max-width:none;padding:24px 26px;border-radius:24px 0 0 0;background:linear-gradient(150deg,#754324,#29343a 55%,#172A38);border:1px solid #E8B65466;box-shadow:-18px 0 50px #172A3844}.festival-activity.activity-is-open .activity-tabs{background:#533c2d;top:-24px;padding:12px 0;border-radius:12px}.festival-activity .rangoli-grid{gap:18px}.rangoli-grid img{width:100%;height:230px;object-fit:cover}.rangoli-grid a{background:#172A38bb}.festival-activity h2{font-size:30px}.rangoli-grid h3{font-size:16px}.rangoli-grid span{font-size:11px}.festival-activity .puja-guide{background:#172A38cc}.activity-tabs button:first-child{border-color:#F3A044;background:#E8902D22}@media(max-width:760px){.festival-activity.activity-is-open{width:92%;right:0;padding:18px;top:45px}.courtyard-call:has(.activity-is-open) .courtyard-main{max-width:100%;padding:0}.rangoli-grid img{height:170px}.festival-activity h2{font-size:25px}}
+/* Keep the call and transcript available beside activities. */
+.courtyard-call:has(.activity-is-open) .courtyard-transcript{display:block;position:absolute;top:auto;bottom:8px;left:1%;width:43%;height:25%;max-height:170px;z-index:2}.courtyard-call:has(.activity-is-open) .courtyard-main{height:69%;justify-content:flex-start;padding-top:8px}.courtyard-call:has(.activity-is-open) .call-diya-wrap{flex-basis:170px}.courtyard-call:has(.activity-is-open) .call-diya-wrap .diya-stage{width:300px}.courtyard-call:has(.activity-is-open) .call-heading{font-size:36px}.courtyard-call:has(.activity-is-open) .call-actions{margin-top:8px}.more-rangoli{display:block;width:100%;padding:14px;margin:20px 0 8px;border:1px solid #E8B65466;border-radius:14px;background:#E8B65422;color:#F6F2E9}.more-rangoli:disabled{opacity:.6;cursor:default}
+/* Scale the illustration within available height; keep the primary action visible. */
+.festival-welcome{height:100%;max-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 16px;gap:0}.festival-welcome .festival-eyebrow,.festival-welcome .festival-title,.festival-welcome .festival-subtitle,.festival-welcome .festival-invite,.festival-welcome .festival-start,.festival-welcome .festival-hint,.festival-welcome .festival-suggestions{flex-shrink:0}.festival-welcome .diya-stage{flex:0 1 230px;min-height:0;max-height:32vh;width:min(400px,65vw);margin:-8px auto;display:flex;align-items:center;justify-content:center}.festival-welcome .diya-art{height:100%;max-height:100%;width:auto;max-width:100%}.festival-welcome .festival-title{font-size:clamp(32px,5.2vw,65px);margin:10px 0}.festival-welcome .festival-start{margin-top:10px;padding:12px 26px}.festival-welcome .festival-hint{margin:8px 0 12px}.festival-nav{padding-top:74px;padding-bottom:10px}.festival-footer{padding:8px}
+@media(max-height:700px){.festival-welcome .festival-eyebrow{display:none}.festival-welcome .festival-title{font-size:38px;margin:5px 0}.festival-welcome .festival-subtitle{font-size:12px}.festival-welcome .diya-stage{flex-basis:145px;max-height:24vh}.festival-welcome .festival-invite{min-height:22px;font-size:12px}.festival-welcome .festival-start{padding:10px 24px;margin-top:6px}.festival-welcome .festival-hint{margin:5px}.festival-welcome .festival-suggestions button{padding:6px 10px}.festival-nav{padding-top:60px}.festival-footer{padding:5px}}
+@media(max-width:760px){.festival-activity.activity-is-open{width:50%;padding:10px;top:48px}.courtyard-call:has(.activity-is-open) .courtyard-main{max-width:48%;height:65%;margin-left:0}.courtyard-call:has(.activity-is-open) .call-heading{font-size:24px}.courtyard-call:has(.activity-is-open) .call-subheading,.courtyard-call:has(.activity-is-open) .festival-eyebrow,.courtyard-call:has(.activity-is-open) .call-interrupt{display:none}.courtyard-call:has(.activity-is-open) .call-diya-wrap .diya-stage{width:180px}.courtyard-call:has(.activity-is-open) .call-actions{flex-direction:column;gap:6px}.courtyard-call:has(.activity-is-open) .call-state{font-size:12px}.courtyard-call:has(.activity-is-open) .courtyard-transcript{width:46%;height:24%;bottom:40px}.festival-activity .rangoli-grid{grid-template-columns:1fr}.festival-activity h2{font-size:20px}.rangoli-grid img{height:160px}.festival-activity .activity-tabs button{font-size:10px;padding:6px}.call-end{padding:10px}}
+.activity-tabs button:first-child{background:#172A38cc;border-color:#E8B65455}.activity-tabs button[aria-pressed="true"]{background:linear-gradient(120deg,#E8B654,#F29532);border-color:#F6F2E9aa;color:#172A38;font-weight:700;box-shadow:0 3px 16px #E8B65433}.activity-tabs button[aria-pressed="false"]{background:#172A38cc;color:#F6F2E9}
